@@ -1,7 +1,7 @@
 import { Project } from './Project';
 
 // Use production API URL or environment variable
-const baseUrl = import.meta.env.VITE_API_URL || 'https://fwd-n67fm7mb4-rayyan123571s-projects.vercel.app';
+const baseUrl = import.meta.env.VITE_API_URL || 'https://fwd-n67fm7mb4-rayyan123571s-projects.vercel.app/api';
 const url = `${baseUrl}/projects`;
 
 function translateStatusToErrorMessage(status) {
