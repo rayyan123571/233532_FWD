@@ -12,13 +12,16 @@ function ProjectPage() {
   const id = Number(params.id);
 
   useEffect(() => {
+    let mounted = true;
     setLoading(true);
     projectAPI
       .find(id)
       .then((data) => {
-        setProject(data);
-        setError(null);
-        setLoading(false);
+        if (mounted) {
+          setProject(data);
+          setError(null);
+          setLoading(false);
+        }
       })
       .catch((e) => {
         // Fallback to mock data if API fails
@@ -30,8 +33,11 @@ function ProjectPage() {
         } else {
           setError(e.message || 'Error loading project');
         }
-        setLoading(false);
+        if (mounted) {
+          setLoading(false);
+        }
       });
+    return () => { mounted = false; };
   }, [id]);
 
   return (

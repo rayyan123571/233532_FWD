@@ -35,7 +35,6 @@ function parseJSON(response) {
   return response.json();
 }
 
-// eslint-disable-next-line
 function delay(ms) {
   return function (x) {
     return new Promise((resolve) => setTimeout(() => resolve(x), ms));

@@ -1,3 +1,4 @@
+/* eslint-env node */
 const jsonServer = require('json-server');
 const path = require('path');
 

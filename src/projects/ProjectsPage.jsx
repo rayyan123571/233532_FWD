@@ -61,15 +61,6 @@ function ProjectsPage() {
 
       {error && (
         <div className="row">
-          <div className={`card large ${usingMockData ? 'warning' : 'error'}`}>
-            <section>
-              <p>
-                <span className="icon-alert inverse "></span>
-                {error}
-              </p>
-            </section>
-      {error && (
-        <div className="row">
           <div className="card large error">
             <section>
               <p>
@@ -84,6 +75,15 @@ function ProjectsPage() {
       <ProjectList onSave={saveProject} projects={projects} />
 
       {!loading && !error && (
+        <div className="row">
+          <div className="col-sm-12">
+            <div className="button-group fluid">
+              <button className="button default" onClick={handleMoreClick}>
+                More...
+              </button>
+            </div>
+          </div>
+        </div>
       )}
 
       {loading && (
