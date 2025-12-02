@@ -62,6 +62,15 @@ function ProjectsPage() {
         });
     }
   };
+
+  const handleMoreClick = () => {
+    setCurrentPage((currentPage) => currentPage + 1);
+  };
+
+  return (
+    <>
+      <h1>Projects</h1>
+
       {error && (
         <div className="row">
           <div className={`card large ${usingMockData ? 'warning' : 'error'}`}>
@@ -78,15 +87,6 @@ function ProjectsPage() {
       <ProjectList onSave={saveProject} projects={projects} />
 
       {!loading && !error && !usingMockData && (
-              </p>
-            </section>
-          </div>
-        </div>
-      )}
-
-      <ProjectList onSave={saveProject} projects={projects} />
-
-      {!loading && !error && (
         <div className="row">
           <div className="col-sm-12">
             <div className="button-group fluid">
