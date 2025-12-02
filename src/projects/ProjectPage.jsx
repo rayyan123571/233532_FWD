@@ -26,7 +26,7 @@ function ProjectPage() {
         if (mockProject) {
           console.log('API unavailable, using mock data for project', id);
           setProject(mockProject);
-          setError('Note: Using demo data. Backend API is not configured.');
+          setError('Loading demo data. Connecting to backend...');
         } else {
           setError(e.message || 'Error loading project');
         }

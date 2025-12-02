@@ -1,7 +1,7 @@
 import { Project } from './Project';
 
-// Use environment variable for API URL, fallback to localhost for development
-const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:4000';
+// Use production API URL or environment variable
+const baseUrl = import.meta.env.VITE_API_URL || 'https://fwd-n67fm7mb4-rayyan123571s-projects.vercel.app';
 const url = `${baseUrl}/projects`;
 
 function translateStatusToErrorMessage(status) {
