@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { projectAPI } from './projectAPI';
 import ProjectDetail from './ProjectDetail';
 import { useParams } from 'react-router';
+import { MOCK_PROJECTS } from './MockProjects';
 
 function ProjectPage() {
   const [loading, setLoading] = useState(false);
@@ -16,10 +17,19 @@ function ProjectPage() {
       .find(id)
       .then((data) => {
         setProject(data);
+        setError(null);
         setLoading(false);
       })
       .catch((e) => {
-        setError(e);
+        // Fallback to mock data if API fails
+        const mockProject = MOCK_PROJECTS.find(p => p.id === id);
+        if (mockProject) {
+          console.log('API unavailable, using mock data for project', id);
+          setProject(mockProject);
+          setError('Note: Using demo data. Backend API is not configured.');
+        } else {
+          setError(e.message || 'Error loading project');
+        }
         setLoading(false);
       });
   }, [id]);

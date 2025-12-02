@@ -2,12 +2,14 @@ import { useState, useEffect } from 'react';
 import { projectAPI } from './projectAPI';
 import { Project } from './Project';
 import ProjectList from './ProjectList';
+import { MOCK_PROJECTS } from './MockProjects';
 
 function ProjectsPage() {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(undefined);
   const [currentPage, setCurrentPage] = useState(1);
+  const [usingMockData, setUsingMockData] = useState(false);
 
   useEffect(() => {
     async function loadProjects() {
@@ -15,13 +17,22 @@ function ProjectsPage() {
       try {
         const data = await projectAPI.get(currentPage);
         setError(null);
+        setUsingMockData(false);
         if (currentPage === 1) {
           setProjects(data);
         } else {
           setProjects((projects) => [...projects, ...data]);
         }
       } catch (e) {
-        setError(e.message);
+        // Fallback to mock data if API fails
+        if (currentPage === 1) {
+          console.log('API unavailable, using mock data');
+          setProjects(MOCK_PROJECTS);
+          setUsingMockData(true);
+          setError('Note: Using demo data. Backend API is not configured.');
+        } else {
+          setError(e.message);
+        }
       } finally {
         setLoading(false);
       }
@@ -30,34 +41,43 @@ function ProjectsPage() {
   }, [currentPage]);
 
   const saveProject = (project) => {
-    projectAPI
-      .put(project)
-      .then((updatedProject) => {
-        let updatedProjects = projects.map((p) => {
-          return p.id === project.id ? new Project(updatedProject) : p;
-        });
-        setProjects(updatedProjects);
-      })
-      .catch((e) => {
-        setError(e.message);
+    if (usingMockData) {
+      // Update mock data locally
+      let updatedProjects = projects.map((p) => {
+        return p.id === project.id ? new Project(project) : p;
       });
+      setProjects(updatedProjects);
+      setError('Note: Using demo data. Changes are not persisted.');
+    } else {
+      projectAPI
+        .put(project)
+        .then((updatedProject) => {
+          let updatedProjects = projects.map((p) => {
+            return p.id === project.id ? new Project(updatedProject) : p;
+          });
+          setProjects(updatedProjects);
+        })
+        .catch((e) => {
+          setError(e.message);
+        });
+    }
   };
-
-  const handleMoreClick = () => {
-    setCurrentPage((currentPage) => currentPage + 1);
-  };
-
-  return (
-    <>
-      <h1>Projects</h1>
-
       {error && (
         <div className="row">
-          <div className="card large error">
+          <div className={`card large ${usingMockData ? 'warning' : 'error'}`}>
             <section>
               <p>
                 <span className="icon-alert inverse "></span>
                 {error}
+              </p>
+            </section>
+          </div>
+        </div>
+      )}
+
+      <ProjectList onSave={saveProject} projects={projects} />
+
+      {!loading && !error && !usingMockData && (
               </p>
             </section>
           </div>
