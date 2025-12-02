@@ -1,16 +1,117 @@
-# React + Vite
+# Project Pilot
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A complete React project management application built with React, Vite, and React Router.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- 📋 Project listing with pagination
+- ✏️ Edit and update projects
+- 🔍 View detailed project information
+- 🎨 Responsive design with mini.css
+- 🚀 Client-side routing with React Router
+- 💾 Backend API integration with json-server
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **React 19** - UI library
+- **Vite** - Build tool and dev server
+- **React Router 7** - Client-side routing
+- **mini.css** - Minimal CSS framework
+- **json-server** - Mock REST API
+- **PropTypes** - Runtime type checking
 
-## Expanding the ESLint configuration
+## Getting Started
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Prerequisites
+
+- Node.js (v14 or higher)
+- npm or yarn
+
+### Installation
+
+1. Clone the repository:
+```bash
+git clone https://github.com/rayyan123571/FWD-.git
+cd projectpilot
+```
+
+2. Install dependencies:
+```bash
+npm install
+```
+
+### Running the Application
+
+1. Start the backend API server:
+```bash
+npm run api
+```
+
+2. In a new terminal, start the development server:
+```bash
+npm run dev
+```
+
+3. Open your browser and navigate to `http://localhost:5173` (or the port shown in the terminal)
+
+## Building for Production
+
+```bash
+npm run build
+```
+
+The build output will be in the `dist` directory.
+
+### Serving Production Build
+
+```bash
+npx serve -s dist
+```
+
+## Project Structure
+
+```
+projectpilot/
+├── api/
+│   └── db.json           # JSON database for json-server
+├── public/
+│   └── assets/           # Static assets (images, logos)
+├── src/
+│   ├── home/
+│   │   └── HomePage.jsx  # Home page component
+│   ├── projects/
+│   │   ├── Project.js            # Project model class
+│   │   ├── MockProjects.js       # Mock data
+│   │   ├── ProjectCard.jsx       # Project card component
+│   │   ├── ProjectDetail.jsx     # Project detail view
+│   │   ├── ProjectForm.jsx       # Project edit form
+│   │   ├── ProjectList.jsx       # Project list component
+│   │   ├── ProjectPage.jsx       # Single project page
+│   │   ├── ProjectsPage.jsx      # Projects list page
+│   │   └── projectAPI.js         # API client
+│   ├── App.jsx           # Main app component with routing
+│   ├── main.jsx          # Application entry point
+│   └── index.css         # Global styles
+├── package.json
+└── vite.config.js
+```
+
+## Available Scripts
+
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run preview` - Preview production build
+- `npm run api` - Start json-server backend
+- `npm run lint` - Run ESLint
+
+## API Endpoints
+
+The backend API runs on `http://localhost:4000` and provides:
+
+- `GET /projects` - Get all projects (supports pagination with `_page` and `_limit`)
+- `GET /projects/:id` - Get a single project
+- `PUT /projects/:id` - Update a project
+
+## Deployment
+
+This project is deployed on Vercel. The production build automatically handles SPA routing.
