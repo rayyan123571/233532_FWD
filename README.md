@@ -114,4 +114,91 @@ The backend API runs on `http://localhost:4000` and provides:
 
 ## Deployment
 
+### Frontend Deployment (Vercel)
+
 This project is deployed on Vercel. The production build automatically handles SPA routing.
+
+#### Steps to Deploy Frontend:
+
+1. Push your code to GitHub (already done!)
+2. Go to [Vercel](https://vercel.com) and import your repository
+3. Configure environment variable in Vercel:
+   - Go to Project Settings → Environment Variables
+   - Add: `VITE_API_URL` = `YOUR_BACKEND_API_URL`
+4. Deploy!
+
+### Backend Deployment Options
+
+The backend needs to be deployed separately. Here are some options:
+
+#### Option 1: Deploy to Render (Recommended - Free Tier Available)
+
+1. Create a `server.js` file in your project root:
+```javascript
+const jsonServer = require('json-server');
+const server = jsonServer.create();
+const router = jsonServer.router('api/db.json');
+const middlewares = jsonServer.defaults();
+const port = process.env.PORT || 4000;
+
+server.use(middlewares);
+server.use(jsonServer.bodyParser);
+server.use(router);
+
+server.listen(port, () => {
+  console.log(`JSON Server is running on port ${port}`);
+});
+```
+
+2. Go to [Render](https://render.com) and create a new Web Service
+3. Connect your GitHub repository
+4. Configure:
+   - Build Command: `npm install`
+   - Start Command: `node server.js`
+5. Copy the deployed URL (e.g., `https://your-app.onrender.com`)
+6. Add this URL to Vercel environment variable: `VITE_API_URL`
+
+#### Option 2: Deploy to Railway
+
+1. Go to [Railway](https://railway.app)
+2. Create new project from GitHub repo
+3. Add start command: `node server.js`
+4. Copy the deployed URL
+5. Update `VITE_API_URL` in Vercel
+
+#### Option 3: Deploy to Heroku
+
+1. Install Heroku CLI
+2. Create `Procfile` with: `web: node server.js`
+3. Run:
+```bash
+heroku create your-app-name
+git push heroku main
+```
+4. Copy the Heroku URL
+5. Update `VITE_API_URL` in Vercel
+
+### Environment Variables
+
+Copy `.env.example` to `.env` and update the values:
+
+```bash
+cp .env.example .env
+```
+
+For local development, use:
+```
+VITE_API_URL=http://localhost:4000
+```
+
+For production (set in Vercel dashboard):
+```
+VITE_API_URL=https://your-backend-api.onrender.com
+```
+
+### Important Notes
+
+- The frontend expects the backend to be running and accessible
+- Make sure CORS is enabled on your backend (json-server handles this automatically)
+- Environment variables in Vite must be prefixed with `VITE_`
+- After updating environment variables in Vercel, redeploy the application
